@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/typingfor2fa/static/css/main.67dcad82.css",
-    "main.js": "/typingfor2fa/static/js/main.88775057.js",
+    "main.js": "/typingfor2fa/static/js/main.53eb7e40.js",
     "static/js/787.c161209f.chunk.js": "/typingfor2fa/static/js/787.c161209f.chunk.js",
     "index.html": "/typingfor2fa/index.html",
     "main.67dcad82.css.map": "/typingfor2fa/static/css/main.67dcad82.css.map",
-    "main.88775057.js.map": "/typingfor2fa/static/js/main.88775057.js.map",
+    "main.53eb7e40.js.map": "/typingfor2fa/static/js/main.53eb7e40.js.map",
     "787.c161209f.chunk.js.map": "/typingfor2fa/static/js/787.c161209f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.67dcad82.css",
-    "static/js/main.88775057.js"
+    "static/js/main.53eb7e40.js"
   ]
 }
