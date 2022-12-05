@@ -1,38 +1,218 @@
+:root {
+  --prussian-blue: #0b3142ff;
+  --eggplant: #704c5eff;
+  --amazon: #417b5aff;
+  --white: #ffffff;
+  --silver: #c3c3c3ff;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  background-color: var(--white);
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--white);
+  width: 100vw;
+  height: 94vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.App-page {
+  padding-top: 20px;
+  background-color: var(--silver);
+  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  color: black; 
+}
+
+.prussian-blue {
+  background-color: var(--prussian-blue);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-footer {
+  background-color: var(--white);
+  width: 100vw;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hText {
+  font-family: 'Libre Baskerville';
 }
+
+.bText {
+  font-family: 'Source Sans Pro';
+}
+
+.page-name {
+  padding-left: 50vw;
+  padding-right: 10vw;
+
+}
+
+.header-span {
+  background-color: var(--white);
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  background-color: var(--white);
+  align-items: center;
+  width: 100vw;
+}
+
+.navbar-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: right !important;
+}
+
+.navbar-item {
+  list-style: none;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.navbar-title {
+  justify-content: left !important;
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  color: var(--eggplant);
+  align-items: center;
+  padding-left: 2rem;
+}
+
+.navbar-title > h3 {
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.navbar-link {
+  font-family: 'Libre Baskerville';
+  text-decoration: none !important;
+  color: black;
+}
+
+.navbar-link:hover {
+  text-decoration: none !important;
+  color: var(--eggplant);
+}
+
+.password-input {
+  width: 360px;
+  background-color: transparent;
+  color: var(--eggplant);
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: 2px !important;
+  border-color: white;
+  padding: 12px;
+}
+
+.password-input:focus-visible {
+  outline: none;
+}
+
+.password-input-large {
+  width: 50vw;
+  height: 20vh;
+  background-color: transparent;
+  color: var(--eggplant);
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: 2px !important;
+  border-color: white;
+  padding: 12px;
+}
+
+.password-input-large:focus-visible {
+  outline: none;
+}
+
+.password-button {
+  color: var(--eggplant) !important;
+  cursor: pointer !important;
+  border: 0 !important;
+  background: var(--white) !important;
+  border-radius: 0px !important;
+  padding: 12px 24px !important;
+}
+
+.password-button:hover {
+  color: black !important;
+  background: white;
+}
+
+.password-table {
+  width: 50vw !important;
+  max-width: 800px !important;
+}
+
+.password-th {
+  width: 30%;
+}
+
+.correct {
+  color: var(--amazon);
+}
+
+.incorrect {
+  color: white;
+  background-color: red;
+}
+
+.untyped {
+  color: black;
+}
+
+.text-box {
+  background: var(--white) !important;
+  width: 50vw;
+  padding: 30px;
+}
+
+.explanations {
+  width: 60vw !important;
+}
+
+.graph-formatting {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.data {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  text-align: center;
+}
+
+

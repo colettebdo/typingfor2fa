@@ -1,0 +1,211 @@
+import numpy as np
+import math
+from scipy import stats
+import csv
+import json
+
+characters = {}
+patterns = {}
+passwords = {}
+all_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[]\\{}|;':,./<>?"
+common_passwords = [ "password", "123456", "123456789", "guest", "qwerty", "12345678", "111111", "12345", "col123456", "123123", "1234567", "1234", "1234567890", "000000", "555555", "666666", "123321", "654321", "7777777", "123" ]
+common_patterns = [ "ight", "ite", "en", "ou", "th", "me", "in", "at", "am", "an", "er", "it", "tr", "le", "on", "as", "st", "co" ]
+alphanum = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+def initialize_dictionary():
+    for i in range(len(all_chars)):
+        characters.setdefault(all_chars[i], 1)
+        patterns.setdefault(all_chars[i], 1)
+    for i in range(len(common_patterns)):
+        patterns.setdefault(common_patterns[i], 1)
+    for i in range(len(alphanum)):
+        patterns.setdefault(alphanum[i] + alphanum[i], 1)
+
+def read_data():
+    # Read in the data
+    data = np.genfromtxt(
+        '/Users/colettedo/Desktop/CS109 PSets Code/extra credit/common_passwords.csv', # filename
+        delimiter=',', # csv cells are demarcated with commas
+        names=None, # There is no header information in the first row
+        dtype=str # This informs how all data should be interpreted
+    )
+    data2 = np.genfromtxt(
+        '/Users/colettedo/Desktop/CS109 PSets Code/extra credit/archive (1)/users.csv', # filename
+        delimiter=',', # csv cells are demarcated with commas
+        names=None, # There is no header information in the first row
+        dtype=str # This informs how all data should be interpreted
+    )
+    data3 = np.genfromtxt(
+        '/Users/colettedo/Desktop/CS109 PSets Code/extra credit/top_200_password_2020_by_country.csv', # filename
+        delimiter=',', # csv cells are demarcated with commas
+        names=None, # There is no header information in the first row
+        dtype=str # This informs how all data should be interpreted
+    )
+    
+    print(len(all_chars))
+    words = []
+    total_chars = len(all_chars)
+    total_patterns = len(all_chars) + len(common_patterns) + len(alphanum)
+
+    for i in range(1, len(data)):
+        # Check if password has the same pattern
+        j = 0
+        while j < len(data[i][0]):
+            found = False
+            for pattern in common_patterns:
+                if found == False and data[i][0][j : j + len(pattern)] == pattern:
+                    val = patterns.get(pattern)
+                    patterns.update( { pattern : val + 1 } )
+                    found = True
+                    j += len(pattern)
+                    total_patterns += 1
+            if (found == False):
+                if (j + 1 < len(data[i][0]) and data[i][0][j] == data[i][0][j + 1]):
+                    val = patterns.setdefault(data[i][0][j] + data[i][0][j] , 1)
+                    patterns.update({ data[i][0][j] + data[i][0][j] : val + 1 })
+                    j += 2
+                else:
+                    val = patterns.setdefault(data[i][0][j], 1)
+                    patterns.update({ data[i][0][j] : val + 1 })
+                    j += 1
+                total_patterns += 1
+            
+        # Generate the characters dictionary
+        for j in range(len(data[i][0])):
+            val = characters.setdefault(data[i][0][j], 1)
+            characters.update({ data[i][0][j] : val + 1 })
+            total_chars += 1
+
+    for i in range(1, len(data2)):
+        # Check if password has the same pattern
+        j = 0
+        while j < len(data2[i][2]):
+            found = False
+            for pattern in common_patterns:
+                if found == False and data2[i][2][j : j + len(pattern)] == pattern:
+                    val = patterns.get(pattern)
+                    patterns.update( { pattern : val + 1 } )
+                    found = True
+                    j += len(pattern)
+                    total_patterns += 1
+            if (found == False):
+                if (j + 1 < len(data2[i][2]) and data2[i][2][j] == data2[i][2][j + 1]):
+                    val = patterns.setdefault(data2[i][2][j] + data2[i][2][j] , 1)
+                    patterns.update({ data2[i][2][j] + data2[i][2][j] : val + 1 })
+                    j += 2
+                else:
+                    val = patterns.setdefault(data2[i][2][j], 1)
+                    patterns.update({ data2[i][2][j] : val + 1 })
+                    j += 1
+                total_patterns += 1
+            
+        # Generate the characters dictionary
+        for j in range(len(data2[i][2])):
+            val = characters.setdefault(data2[i][2][j], 1)
+            characters.update({ data2[i][2][j] : val + 1 })
+            total_chars += 1
+    
+    num_passwords = 0
+
+    for i in range(1, len(data3)):
+        # Add to passwords dict
+        passwords.setdefault(data3[i][3], int(data3[i][4]))
+        num_passwords += int(data3[i][4])
+
+        # Check if password has the same pattern
+        j = 0
+        while j < len(data3[i][3]):
+            found = False
+            for pattern in common_patterns:
+                if found == False and data3[i][3][j : j + len(pattern)] == pattern:
+                    val = patterns.get(pattern)
+                    patterns.update( { pattern : val + 1 } )
+                    found = True
+                    j += len(pattern)
+                    total_patterns += 1
+            if (found == False):
+                if (j + 1 < len(data3[i][3]) and data3[i][3][j] == data3[i][3][j + 1]):
+                    val = patterns.setdefault(data3[i][3][j] + data3[i][3][j] , 1)
+                    patterns.update({ data3[i][3][j] + data3[i][3][j] : val + 1 })
+                    j += 2
+                else:
+                    val = patterns.setdefault(data3[i][3][j], 1)
+                    patterns.update({ data3[i][3][j] : val + 1 })
+                    j += 1
+                total_patterns += 1
+            
+        # Generate the characters dictionary
+        for j in range(len(data3[i][3])):
+            val = characters.setdefault(data3[i][3][j], 1)
+            characters.update({ data3[i][3][j] : val + 1 })
+            total_chars += 1   
+
+    keys = list(characters.keys())
+    for i in range(len(keys)):
+        val = characters.get(keys[i])
+        characters.update({keys[i]: val / total_chars })
+    
+    patt_keys = list(patterns.keys())
+    for i in range(len(patt_keys)):
+        val = patterns.get(patt_keys[i])
+        patterns.update( { patt_keys[i]: val / total_patterns } )
+
+    
+
+def calculate_password(password):
+    strength = 1
+    for i in range(len(password)):
+        strength *= characters.get(password[i])
+    return strength
+
+def calculate_password_patterns(password):
+    strength = 1
+    i = 0
+    while i < len(password):
+        found = False
+        for pattern in common_patterns:
+            for pattern in common_patterns:
+                if found == False and password[i : i + len(pattern)] == pattern:
+                    val = patterns.get(pattern)
+                    strength *= val
+                    found = True
+                    i += len(pattern)
+        if (found == False):
+            if (i + 1 < len(password) and password[i] == password[i+1]):
+                val = patterns.get(password[i] + password[i+1])
+                strength *= val
+                i += 2
+            else:
+                val = patterns.get(password[i])
+                strength *= val
+                i += 1
+    return strength
+
+def calculate_password_equal(password):
+    return (1 / len(all_chars) ** len(password))
+
+def main():
+    initialize_dictionary()
+    read_data()
+    user_password = input("Enter Password: ")
+    print(1 / calculate_password_equal(user_password))
+    print(1 / calculate_password(user_password))
+    print(1 / calculate_password_patterns(user_password))
+    with open("/Users/colettedo/Desktop/passwordevalify/src/Data/characters.json", "w") as outfile:
+        json.dump(characters, outfile, indent=4)
+    with open("/Users/colettedo/Desktop/passwordevalify/src/Data/patterns.json", "w") as outfile:
+        json.dump(patterns, outfile, indent=4)
+    with open("/Users/colettedo/Desktop/passwordevalify/src/Data/passwords.json", "w") as outfile:
+        json.dump(passwords, outfile, indent=4)
+
+    users = {}
+    users.setdefault( "bot1", stats.norm(100, 50).rvs(size=400).tolist() )
+    users.setdefault("bot2", stats.norm(200, 55).rvs(size=400).tolist())
+    users.setdefault( "bot3", stats.norm(300, 45).rvs(size=400).tolist())
+    
+    with open("/Users/colettedo/Desktop/passwordevalify/src/Users/users.json", "w") as outfile:
+        json.dump(users, outfile, indent=4)
+    
+
+if __name__ == '__main__':
+    main()

@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react'
+import { Button, Table } from 'react-bootstrap'
+import Navbar from './Components/navbar.js';
+import { BrowserRouter as Router, Routes, Route}
+    from 'react-router-dom';
+import React from "react";
+import { render } from "react-dom";
+import CreatePassword from "./Components/create.js"
+import RecordPatterns from "./Components/record.js"
 
 function App() {
+
+  const [ userPassword, setUserPassword ] = useState("");
+
+  function updateUserPassword(password) {
+    setUserPassword(password);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path='/typingfor2fa' exact element={<CreatePassword userPassword={userPassword} updateUserPassword={updateUserPassword} />} />
+        <Route path='/typingfor2fa/create' element={<CreatePassword userPassword={userPassword} updateUserPassword={updateUserPassword} />} />
+        <Route path='/typingfor2fa/record' element={<RecordPatterns userPassword={userPassword} />} />
+      </Routes>
+      <div className="footer">
+        <p className="bText">Created by Colette Do for CS109</p>
+      </div>
+    </Router>
   );
 }
 
