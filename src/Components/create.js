@@ -4,7 +4,7 @@ import { Button, Table } from 'react-bootstrap'
 import { PythonProvider } from "react-py";
 import React from "react";
 import { render } from "react-dom";
-import patternsData from '../Data/characters.json'
+import patternsData from '../Data/patterns.json'
 import charactersData from '../Data/characters.json'
 import passwordsData from '../Data/passwords.json'
 
@@ -56,10 +56,12 @@ function CreatePassword(props) {
       console.log(characters.current[password[i]]);
       strength *= characters.current[password[i]];
     }
-    setWeightedChars(((1 / strength) + 1) < (Math.pow(2, 53) - 1) ? parseInt(1 / strength) + 1 : overflow);
+    // setWeightedChars(((1 / strength) + 1) < (Math.pow(2, 53) - 1) ? parseInt(1 / strength) + 1 : overflow);
+    setWeightedChars(strength * 100);
 
     let newBruteForce = Math.pow(93, password.length) + 1;
-    setBruteForce(newBruteForce < (Math.pow(2, 53) - 1) ? newBruteForce / 2 : overflow);
+    // setBruteForce(newBruteForce < (Math.pow(2, 53) - 1) ? newBruteForce : overflow);
+    setBruteForce((1 / newBruteForce) * 100);
 
     let strength2 = 1;
     let j = 0;
@@ -76,7 +78,8 @@ function CreatePassword(props) {
       j += best.length;
     }
 
-    setCharsPatterns(((1 / strength2) + 1) < (Math.pow(2, 53) - 1) ? parseInt(1 / strength2) + 1 : overflow)
+    // setCharsPatterns(((1 / strength2) + 1) < (Math.pow(2, 53) - 1) ? parseInt(1 / strength2) + 1 : overflow)
+    setCharsPatterns(strength2 * 100)
 
     let password_keys = Object.keys(passwords.current);
     setCommonPassword(0)
@@ -105,21 +108,21 @@ function CreatePassword(props) {
       <thead>
         <tr>
           <th className="password-th">Type</th>
-          <th>Expected Tries</th>
+          <th>Chance of Cracking</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Brute Force</td>
-          <td>{bruteForce}</td>
+          <td>{bruteForce}%</td>
         </tr>
         <tr>
           <td>Weighted Characters</td>
-          <td>{weightedChars}</td>
+          <td>{weightedChars}%</td>
         </tr>
         <tr>
           <td>Patterns</td>
-          <td>{charsPatterns}</td>
+          <td>{charsPatterns}%</td>
         </tr>
         <tr>
           <td>Common Password?</td>
